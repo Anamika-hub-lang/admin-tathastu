@@ -1,14 +1,14 @@
 type Props = { className?: string };
 
-/** Medical team illustration (transparent PNG). */
+/** Dashboard hero — care team on screen. */
 export default function HeroArt({ className = 'hero-medical-img' }: Props) {
   return (
     <img
       className={className}
-      src="/hero-medical.png"
+      src="/dashboard-hero.png"
       alt=""
-      width={320}
-      height={240}
+      width={360}
+      height={260}
       loading="lazy"
     />
   );

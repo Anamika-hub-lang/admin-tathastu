@@ -289,7 +289,7 @@ button:disabled {
 
 .sidebar-medical-img {
   width: 100%;
-  max-height: 170px;
+  max-height: 200px;
   object-fit: contain;
   display: block;
   background: transparent;
@@ -382,8 +382,8 @@ button:disabled {
 }
 
 .hero-medical-img {
-  width: min(420px, 50vw);
-  max-height: 240px;
+  width: min(380px, 48vw);
+  max-height: 220px;
   height: auto;
   display: block;
   border: none;

@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { UserButton, useUser } from '@clerk/clerk-react';
 import Avatar from '@/components/Avatar';
-import HeroArt from '@/components/HeroArt';
+import SidebarArt from '@/components/SidebarArt';
 import {
   IconDashboard,
   IconPatients,
@@ -52,7 +52,7 @@ export default function AdminLayout() {
           ))}
         </nav>
         <div className="sidebar-promo" aria-hidden>
-          <HeroArt className="sidebar-medical-img" />
+          <SidebarArt />
         </div>
       </aside>
 
