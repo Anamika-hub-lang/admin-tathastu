@@ -1128,15 +1128,7 @@ body.nav-open {
   }
 
   .hero-banner-art {
-    display: block;
-    width: 100%;
-    text-align: center;
-  }
-
-  .hero-medical-img {
-    width: min(100%, 300px);
-    max-height: 160px;
-    margin: 0 auto;
+    display: none;
   }
 
   .hero-banner h2 {
