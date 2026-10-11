@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { UserButton, useUser } from '@clerk/clerk-react';
 import Avatar from '@/components/Avatar';
@@ -26,13 +27,44 @@ const titles: Record<string, string> = {
 export default function AdminLayout() {
   const { user } = useUser();
   const { pathname } = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
   const name = user?.firstName || user?.fullName?.split(' ')[0] || 'Admin';
   const display = user?.fullName || user?.primaryEmailAddress?.emailAddress || 'Administrator';
   const pageTitle = titles[pathname] ?? 'Dashboard';
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.classList.toggle('nav-open', menuOpen);
+    return () => document.body.classList.remove('nav-open');
+  }, [menuOpen]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
+    <div className={`app-shell${menuOpen ? ' sidebar-open' : ''}`}>
+      <button
+        type="button"
+        className="menu-backdrop"
+        aria-label="Close menu"
+        onClick={closeMenu}
+        tabIndex={menuOpen ? 0 : -1}
+      />
+
+      <aside className={`sidebar${menuOpen ? ' is-open' : ''}`}>
+        <button type="button" className="sidebar-close" onClick={closeMenu} aria-label="Close menu">
+          ×
+        </button>
         <div className="sidebar-brand">
           <img src="/tathastu-logo.png" alt="Tathastu" className="brand-logo" />
         </div>
@@ -43,6 +75,7 @@ export default function AdminLayout() {
               to={l.to}
               end={l.end}
               className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+              onClick={closeMenu}
             >
               <span className="nav-icon" aria-hidden>
                 <l.Icon />
@@ -58,7 +91,20 @@ export default function AdminLayout() {
 
       <div className="main-column">
         <header className="top-bar">
-          <h1 className="top-bar-heading">{pageTitle}</h1>
+          <div className="top-bar-left">
+            <button
+              type="button"
+              className="menu-toggle"
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen(true)}
+            >
+              <span className="menu-toggle-bar" />
+              <span className="menu-toggle-bar" />
+              <span className="menu-toggle-bar" />
+            </button>
+            <h1 className="top-bar-heading">{pageTitle}</h1>
+          </div>
           <div className="top-bar-right">
             <div className="top-bar-user">
               <div className="top-bar-user-text">
