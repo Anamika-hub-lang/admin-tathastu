@@ -1,3 +1,4 @@
+import { BUILTIN_ADMIN_EMAILS, normalizeEmail } from '@/lib/adminAllowlist';
 import { DEMO_ADMIN_EMAIL } from '@/lib/demoAdmin';
 
 type ClerkUserLike = {
@@ -5,16 +6,20 @@ type ClerkUserLike = {
   primaryEmailAddress?: { emailAddress: string } | null;
 } | null;
 
-const extraAllowlist = (import.meta.env.EXPO_PUBLIC_ADMIN_EMAILS ?? '')
+const envAllowlist = (import.meta.env.EXPO_PUBLIC_ADMIN_EMAILS ?? '')
   .split(',')
-  .map((s: string) => s.trim().toLowerCase())
+  .map((s: string) => normalizeEmail(s))
   .filter(Boolean);
+
+const allowlistSet = new Set<string>([
+  normalizeEmail(DEMO_ADMIN_EMAIL),
+  ...BUILTIN_ADMIN_EMAILS.map(normalizeEmail),
+  ...envAllowlist,
+]);
 
 export function isAllowlistedAdminEmail(email: string | null | undefined) {
   if (!email) return false;
-  const e = email.toLowerCase().trim();
-  if (e === DEMO_ADMIN_EMAIL.toLowerCase()) return true;
-  return extraAllowlist.includes(e);
+  return allowlistSet.has(normalizeEmail(email));
 }
 
 export function userCanAccessAdmin(user: ClerkUserLike | undefined) {

@@ -1,4 +1,5 @@
 import { SignIn } from '@clerk/clerk-react';
+import { Link } from 'react-router-dom';
 import LoginIllustration from '@/components/LoginIllustration';
 
 const clerkLook = {
@@ -41,7 +42,10 @@ export default function SignInPage() {
         <div className="login-panel">
           <img src="/tathastu-logo.png" alt="Tathastu" className="login-logo" />
           <h1 className="login-title">Welcome back</h1>
-          <p className="login-sub">Sign in with your approved admin email</p>
+          <p className="login-sub">
+            Sign in with your approved admin email. New admin?{' '}
+            <Link to="/sign-up">Create account</Link> first (same Gmail as allowlist).
+          </p>
           <div className="login-clerk">
             <SignIn
               routing="path"

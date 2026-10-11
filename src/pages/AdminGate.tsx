@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useAuth, useClerk, useUser } from '@clerk/clerk-react';
 import { checkAdminAccess, setAdminSessionEmail } from '@/lib/adminApi';
 import { userCanAccessAdmin } from '@/lib/adminSession';
@@ -42,7 +42,11 @@ export default function AdminGate({ children }: { children: ReactNode }) {
         setState('error');
         return;
       }
-      setState(result.isAdmin ? 'ok' : 'denied');
+      if (result.isAdmin || allowlisted) {
+        setState('ok');
+        return;
+      }
+      setState('denied');
     })();
 
     return () => {
@@ -50,17 +54,12 @@ export default function AdminGate({ children }: { children: ReactNode }) {
     };
   }, [isLoaded, userLoaded, isSignedIn, clerkEmail, allowlisted]);
 
-  useEffect(() => {
-    if (state !== 'denied' && state !== 'error') return;
-    void signOut({ redirectUrl: '/sign-in' });
-  }, [state, signOut]);
-
   if (!isConfigured) {
     return (
       <div className="center-page">
         <div className="center-box">
           <h1>Config missing</h1>
-          <p className="muted">Add Supabase and Clerk keys to the project root .env file.</p>
+          <p className="muted">Add Supabase and Clerk keys to the project .env file.</p>
         </div>
       </div>
     );
@@ -93,15 +92,33 @@ export default function AdminGate({ children }: { children: ReactNode }) {
   if (state === 'loading') {
     return (
       <div className="center-page">
-        <p className="muted">Loading…</p>
+        <p className="muted">Checking admin access…</p>
       </div>
     );
   }
 
   if (state === 'denied' || state === 'error') {
+    const signedInAs = clerkEmail ?? user?.emailAddresses?.[0]?.emailAddress ?? 'unknown';
     return (
       <div className="center-page">
-        <p className="muted">{state === 'error' ? error : 'Redirecting to sign in…'}</p>
+        <div className="center-box access-denied-box">
+          <h1>Admin access needed</h1>
+          {state === 'error' ? <p className="error">{error}</p> : null}
+          <p className="muted">
+            Signed in as <strong>{signedInAs}</strong>. This email must match an approved admin
+            account (e.g. <strong>drshivanigdcm8@gmail.com</strong>).
+          </p>
+          <p className="muted">
+            First time? Use <Link to="/sign-up">Sign up</Link> with that same Gmail, then sign in
+            again. For Google login, pick the allowlisted Google account.
+          </p>
+          <div className="access-denied-actions">
+            <button type="button" className="btn" onClick={() => void signOut({ redirectUrl: '/sign-in' })}>
+              Sign out &amp; try again
+            </button>
+            <Link to="/sign-in" className="btn btn-ghost">Back to sign in</Link>
+          </div>
+        </div>
       </div>
     );
   }
