@@ -188,6 +188,43 @@ button:disabled {
   text-align: left;
 }
 
+.login-notice {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  background: #fff5eb;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  color: var(--text);
+}
+
+.login-notice-link {
+  display: block;
+  margin-top: 8px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.login-notice-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.login-notice-ok {
+  background: #e6f6f4;
+}
+
+.muted-small {
+  font-size: 0.8rem;
+  margin-top: -8px;
+}
+
 /* App shell */
 .app-shell {
   min-height: 100vh;
