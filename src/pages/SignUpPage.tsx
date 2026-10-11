@@ -1,5 +1,5 @@
 import { SignUp } from '@clerk/clerk-react';
-import HeroArt from '@/components/HeroArt';
+import LoginIllustration from '@/components/LoginIllustration';
 
 const clerkLook = {
   variables: {
@@ -23,7 +23,7 @@ export default function SignUpPage() {
     <div className="login-page">
       <div className="login-shell">
         <aside className="login-hero" aria-hidden>
-          <HeroArt className="login-hero-img" />
+          <LoginIllustration />
           <p className="login-hero-kicker">Join the team</p>
           <p className="login-hero-lead">Create an account with an email your team has approved for admin access.</p>
         </aside>

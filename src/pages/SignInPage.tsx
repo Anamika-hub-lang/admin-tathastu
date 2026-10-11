@@ -1,5 +1,5 @@
 import { SignIn } from '@clerk/clerk-react';
-import HeroArt from '@/components/HeroArt';
+import LoginIllustration from '@/components/LoginIllustration';
 
 const clerkLook = {
   variables: {
@@ -27,7 +27,7 @@ export default function SignInPage() {
     <div className="login-page">
       <div className="login-shell">
         <aside className="login-hero" aria-hidden>
-          <HeroArt className="login-hero-img" />
+          <LoginIllustration />
           <p className="login-hero-kicker">Care operations</p>
           <p className="login-hero-lead">
             Manage provider verification, patient enrollments, and payments from one secure panel.
