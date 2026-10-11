@@ -5,8 +5,8 @@ export default function SidebarArt() {
       className="sidebar-medical-img"
       src="/sidebar-doctor.png"
       alt=""
-      width={200}
-      height={200}
+      width={168}
+      height={168}
       loading="lazy"
     />
   );
