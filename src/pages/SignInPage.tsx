@@ -1,5 +1,4 @@
 import { SignIn } from '@clerk/clerk-react';
-import { Link } from 'react-router-dom';
 import LoginIllustration from '@/components/LoginIllustration';
 
 const clerkLook = {
@@ -42,16 +41,7 @@ export default function SignInPage() {
         <div className="login-panel">
           <img src="/tathastu-logo.png" alt="Tathastu" className="login-logo" />
           <h1 className="login-title">Welcome back</h1>
-          <p className="login-sub">
-            Already have an account? Sign in below. Use the same email that is on the admin allowlist.
-          </p>
-          <div className="login-notice" role="note">
-            <strong>Google se pehli baar?</strong> Sign-in par Google mat dabao — pehle account banao.
-            <Link to="/sign-up" className="login-notice-link">Sign up → Continue with Google</Link>
-            <span className="login-notice-hint">
-              (Error &quot;External Account was not found&quot; = abhi Clerk par account nahi bana.)
-            </span>
-          </div>
+          <p className="login-sub">Sign in with your approved admin email</p>
           <div className="login-clerk">
             <SignIn
               routing="path"
